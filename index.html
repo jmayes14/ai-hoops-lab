@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Hoops Lab</title>
+<meta name="description" content="Watch two teams of AI agents play 5-on-5 basketball in 3D, and coach them: change their game plan and skills, and see what each player is thinking.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="app">
+  <aside id="coach" class="panel" aria-label="Coach panel">
+    <div class="brand"><span class="ball" aria-hidden="true"></span><div><b>AI HOOPS LAB</b><small>5-on-5 · AI agents · you coach</small></div></div>
+    <div class="tabs" id="teamTabs" role="tablist" aria-label="Choose a team to coach"></div>
+    <div id="coachBody"></div>
+    <details class="how">
+      <summary>How the AI thinks</summary>
+      <p>Each of the 10 players is its own <b>agent</b>. It looks at the court several times a second and picks what to do.</p>
+      <p><b>With the ball</b>, a player scores every option: shoot, pass to each teammate, drive to the rim, or hold. Each score is roughly the <b>expected points</b>: the chance of making that shot times 2 or 3. Passes are marked down when a defender is near the passing lane. The team's game plan nudges the scores, and a late shot clock makes shooting more urgent.</p>
+      <p><b>Without the ball</b>, offense players space out, and smart ones cut to the basket when their defender looks away. Defenders stay between their player and the basket, or guard an area in a zone. Everyone chases missed shots.</p>
+      <p><b>Basketball IQ</b> controls how often a player picks the best option. Low IQ adds random noise to the scores, so that player makes more mistakes.</p>
+    </details>
+  </aside>
+
+  <section id="stage" aria-label="3D basketball game">
+    <canvas id="gl" aria-label="3D view of the court. Click a player to see what it is thinking."></canvas>
+    <div id="labels" aria-hidden="true"></div>
+    <div id="sb" aria-live="off">
+      <div class="tm t0"><span class="nm" id="n0">VOLTS</span><span class="pts" id="s0">0</span></div>
+      <div class="mid"><div id="qtr">Q1</div><div id="clk">3:00</div><div class="shot">SHOT <b id="shc">24</b></div></div>
+      <div class="tm t1"><span class="pts" id="s1">0</span><span class="nm" id="n1">EMBERS</span></div>
+    </div>
+    <div id="banner" hidden></div>
+    <ol id="ticker" aria-label="Play by play"></ol>
+    <div id="ctrl">
+      <button id="play" class="btn">Pause</button>
+      <div class="seg" id="spd" role="group" aria-label="Game speed"><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+      <div class="seg" id="cams" role="group" aria-label="Camera"><button data-c="tv" class="on">TV</button><button data-c="follow">Follow</button><button data-c="base">Baseline</button><button data-c="top">Top</button><button data-c="free">Free</button></div>
+      <label class="tog"><input type="checkbox" id="think" checked> Show AI thinking</label>
+      <button id="newg" class="btn">New game</button>
+    </div>
+    <div id="final" hidden></div>
+  </section>
+
+  <aside id="card" class="panel" aria-label="Selected player"></aside>
+</div>
+<script type="module" src="game.js"></script>
+</body>
+</html>
